@@ -1,0 +1,13 @@
+
+ /----------------------------------------------------------------------------\
+ |  yosys -- Yosys Open SYnthesis Suite                                       |
+ |  Copyright (C) 2012 - 2026  Claire Xenia Wolf <claire@yosyshq.com>         |
+ |  Distributed under an ISC-like license, type "license" to see terms        |
+ \----------------------------------------------------------------------------/
+ Yosys 0.64+176 (git sha1 ca8886890, clang++ 18.1.8 -fPIC -O3)
+
+-- Running command `read_verilog -sv -formal rtl/bus.sv rtl/debounce.sv rtl/dm_top.sv rtl/gpio.sv rtl/ibex_alu.sv rtl/ibex_branch_predict.sv rtl/ibex_compressed_decoder.sv rtl/ibex_controller.sv rtl/ibex_core.sv rtl/ibex_counter.sv rtl/ibex_cs_registers.sv rtl/ibex_csr.sv rtl/ibex_decoder.sv rtl/ibex_demo_system.sv rtl/ibex_dummy_instr.sv rtl/ibex_ex_block.sv rtl/ibex_fetch_fifo.sv rtl/ibex_icache.sv rtl/ibex_id_stage.sv rtl/ibex_if_stage.sv rtl/ibex_load_store_unit.sv rtl/ibex_lockstep.sv rtl/ibex_multdiv_fast.sv rtl/ibex_multdiv_slow.sv rtl/ibex_pkg.sv rtl/ibex_pmp.sv rtl/ibex_prefetch_buffer.sv rtl/ibex_register_file_ff.sv rtl/ibex_register_file_fpga.sv rtl/ibex_register_file_latch.sv rtl/ibex_top.sv rtl/ibex_top_tracing.sv rtl/ibex_tracer.sv rtl/ibex_tracer_pkg.sv rtl/ibex_wb_stage.sv rtl/jtag_id_pkg.sv rtl/pwm.sv rtl/pwm_wrapper.sv rtl/ram_2p.sv rtl/spi_host.sv rtl/spi_top.sv rtl/timer.sv rtl/uart.sv ; synth_gatemate -top ibex_demo_system -luttree -nomx8; write_json ibex_demo_system_netlist.json; write_verilog ibex_demo_system_netlist.v' --
+
+1. Executing Verilog-2005 frontend: rtl/bus.sv
+Parsing formal SystemVerilog input from `rtl/bus.sv' to AST representation.
+rtl/bus.sv:27: ERROR: syntax error, unexpected '[', expecting ')' or ',' or '='
