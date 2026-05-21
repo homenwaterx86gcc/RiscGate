@@ -3,5 +3,6 @@
 *.csv
 *.fst
 *.png
+*.v
 obj_dir
 
