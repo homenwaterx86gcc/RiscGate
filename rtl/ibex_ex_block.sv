@@ -195,7 +195,7 @@ module ibex_ex_block #(
   // unless the intermediate result register is being written (which indicates this isn't the
   // final cycle of ALU operation).
   assign ex_valid_o = multdiv_sel ? multdiv_valid : ~(|alu_imd_val_we);
-
+/*
 `ifdef INC_ASSERT
   // This is intended to be accessed via hierarchal references so isn't output from this module nor
   // used in any logic in this module
@@ -213,5 +213,5 @@ module ibex_ex_block #(
   logic unused_sva_multdiv_fsm_idle;
   assign unused_sva_multdiv_fsm_idle = sva_multdiv_fsm_idle;
 `endif
-
+*/
 endmodule

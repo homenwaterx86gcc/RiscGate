@@ -5,7 +5,7 @@
 /**
  * Dual-port RAM with 1 cycle read/write delay, 32 bit words.
  */
-`include "prim_assert.sv"
+//`include "prim_assert.sv"
 
 module ram_2p #(
     parameter int Depth       = 128,

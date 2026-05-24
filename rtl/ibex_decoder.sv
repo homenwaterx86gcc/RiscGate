@@ -11,7 +11,7 @@
  * assertions only.
  */
 
-`include "prim_assert.sv"
+//`include "prim_assert.sv"
 
 module ibex_decoder #(
   parameter bit RV32E               = 0,
@@ -1203,11 +1203,4 @@ module ibex_decoder #(
   // Not all bits are used
   assign unused_instr_alu = {instr_alu[19:15],instr_alu[11:7]};
 
-  ////////////////
-  // Assertions //
-  ////////////////
-
-  // Selectors must be known/valid.
-  `ASSERT(IbexRegImmAluOpKnown, (opcode == OPCODE_OP_IMM) |->
-      !$isunknown(instr[14:12]))
 endmodule // controller

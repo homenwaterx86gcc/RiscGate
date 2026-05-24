@@ -18,7 +18,6 @@ module ibex_demo_system #(
   parameter int unsigned        ClockFrequency = 50_000_000,
   parameter int unsigned        BaudRate       = 115_200,
   parameter ibex_pkg::regfile_e RegFile        = ibex_pkg::RegFileFPGA,
-  parameter                     SRAMInitFile   = ""
 ) (
   input  logic clk_sys_i,
   input  logic rst_sys_ni,

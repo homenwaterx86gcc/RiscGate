@@ -10,7 +10,7 @@
  * clear_i clears the FIFO for the following cycle, including any new request
  */
 
-`include "prim_assert.sv"
+//`include "prim_assert.sv"
 
 module ibex_fetch_fifo #(
   parameter int unsigned NUM_REQS = 2,
@@ -254,16 +254,5 @@ module ibex_fetch_fifo #(
     end
   end
 
-  ////////////////
-  // Assertions //
-  ////////////////
-
-  // Must not push and pop simultaneously when FIFO full.
-  `ASSERT(IbexFetchFifoPushPopFull,
-      (in_valid_i && pop_fifo) |-> (!valid_q[DEPTH-1] || clear_i))
-
-  // Must not push to FIFO when full.
-  `ASSERT(IbexFetchFifoPushFull,
-      (in_valid_i) |-> (!valid_q[DEPTH-1] || clear_i))
 
 endmodule

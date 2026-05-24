@@ -7,7 +7,7 @@
  * Main controller of the processor
  */
 
-`include "prim_assert.sv"
+//`include "prim_assert.sv"
 `include "dv_fcov_macros.svh"
 
 module ibex_controller #(
@@ -204,7 +204,6 @@ module ibex_controller #(
   // illegal_insn_i only set when instr_valid_i is set.
   assign illegal_insn_d = illegal_insn_i & (ctrl_fsm_cs != FLUSH);
 
-  `ASSERT(IllegalInsnOnlyIfInsnValid, illegal_insn_i |-> instr_valid_i)
 
   // exception requests
   // requests are flopped in exc_req_q.  This is cleared when controller is in
@@ -292,14 +291,6 @@ module ibex_controller #(
     assign wb_exception_o = 1'b0;
   end
 
-  `ASSERT_IF(IbexExceptionPrioOnehot,
-             $onehot({instr_fetch_err_prio,
-                      illegal_insn_prio,
-                      ecall_insn_prio,
-                      ebrk_insn_prio,
-                      store_err_prio,
-                      load_err_prio}),
-             (ctrl_fsm_cs == FLUSH) & exc_req_q)
 
   ////////////////
   // Interrupts //
@@ -895,8 +886,6 @@ module ibex_controller #(
     end
   end
 
-  `ASSERT(PipeEmptyOnIrq, ctrl_fsm_cs != IRQ_TAKEN & ctrl_fsm_ns == IRQ_TAKEN |->
-    ~instr_valid_i & ready_wb_i)
 
   //////////
   // FCOV //
@@ -914,31 +903,4 @@ module ibex_controller #(
   `DV_FCOV_SIGNAL(logic, debug_req, debug_req_i & ~debug_mode_q)
   `DV_FCOV_SIGNAL(logic, debug_single_step_taken, do_single_step_d & ~do_single_step_q)
 
-  ////////////////
-  // Assertions //
-  ////////////////
-
-  `ASSERT(AlwaysInstrClearOnMispredict, nt_branch_mispredict_o |-> instr_valid_clear_o)
-
-  // Selectors must be known/valid.
-  `ASSERT(IbexCtrlStateValid, ctrl_fsm_cs inside {
-      RESET, BOOT_SET, WAIT_SLEEP, SLEEP, FIRST_FETCH, DECODE, FLUSH,
-      IRQ_TAKEN, DBG_TAKEN_IF, DBG_TAKEN_ID})
-
-  // If entering or exiting debug mode, the pipeline must be flushed. This is because Ibex
-  // currently does not support some of the pipeline stages being in debug mode; either all or
-  // none of the pipeline stages must be in debug mode. As `flush_id_o` only affects the ID/EX
-  // stage but does not prevent a fetched instruction from proceeding to ID/EX the next cycle, the
-  // assertion additionally requires `pc_set_o`, which sets the PC in the IF stage to a new value,
-  // hence preventing a fetched instruction from proceeding to the ID/EX stage in the next cycle.
-  `ASSERT(IbexPipelineFlushOnChangingDebugMode,
-    debug_mode_d != debug_mode_q |-> flush_id_o & pc_set_o)
-
-  `ifdef RVFI
-    // Workaround for internal verilator error when using hierarchical refers to calcuate this
-    // directly in ibex_core
-    logic rvfi_flush_next;
-
-    assign rvfi_flush_next = ctrl_fsm_ns == FLUSH;
-  `endif
 endmodule

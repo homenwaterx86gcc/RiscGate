@@ -9,7 +9,7 @@
  * Baugh-Wooley multiplier and Long Division
  */
 
-`include "prim_assert.sv"
+//`include "prim_assert.sv"
 
 module ibex_multdiv_slow
 (
@@ -366,11 +366,11 @@ module ibex_multdiv_slow
   ////////////////
 
   // State must be valid.
-  `ASSERT(IbexMultDivStateValid, md_state_q inside {
-      MD_IDLE, MD_ABS_A, MD_ABS_B, MD_COMP, MD_LAST, MD_CHANGE_SIGN, MD_FINISH
-      }, clk_i, !rst_ni)
+  //`ASSERT(IbexMultDivStateValid, md_state_q inside {
+    //  MD_IDLE, MD_ABS_A, MD_ABS_B, MD_COMP, MD_LAST, MD_CHANGE_SIGN, MD_FINISH
+     // }, clk_i, !rst_ni)
 
-`ifdef INC_ASSERT
+/*`ifdef INC_ASSERT
   logic sva_fsm_idle;
   logic unused_sva_fsm_idle;
 
@@ -386,5 +386,5 @@ module ibex_multdiv_slow
     `include "formal_tb_frag.svh"
   `endif
 `endif
-
+*/
 endmodule

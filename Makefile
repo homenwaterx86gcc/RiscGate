@@ -1,9 +1,14 @@
 
-SOURCE_FILES := $(wildcard rtl/*.sv)
-TOP = ibex_demo_system
+IBEX_FILES := ibex_pkg.sv ibex_alu.sv ibex_compressed_decoder.sv ibex_csr.sv ibex_controller.sv \
+					ibex_counter.sv ibex_cs_registers.sv ibex_decoder.sv ibex_ex_block.sv ibex_wb_stage.sv \
+					ibex_id_stage.sv ibex_if_stage.sv ibex_load_store_unit.sv ibex_multdiv_slow.sv \
+					ibex_multdiv_fast.sv ibex_prefetch_buffer.sv ibex_fetch_fifo.sv ibex_register_file_ff.sv \
+					ibex_core.sv
+SOURCE_FILES := $(addprefix rtl/, $(IBEX_FILES))
+TOP = ibex_core
 
 synthesize:
-	yosys -p "read_verilog  -formal -sv $(SOURCE_FILES); synth; write_verilog $(TOP)_out.v"
+	yosys -m slang -p "read_slang -v $(SOURCE_FILES); synth -top $(TOP); write_verilog $(TOP)_out.v"
 
 clean:
 	rm *.log *.txt *.json *.v

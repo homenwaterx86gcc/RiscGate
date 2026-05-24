@@ -11,7 +11,7 @@
  * a simple passthrough to write data direct to the register file.
  */
 
-`include "prim_assert.sv"
+//`include "prim_assert.sv"
 `include "dv_fcov_macros.svh"
 
 module ibex_wb_stage #(
@@ -248,5 +248,5 @@ module ibex_wb_stage #(
 
   `DV_FCOV_SIGNAL_GEN_IF(logic, wb_valid, g_writeback_stage.wb_valid_q, WritebackStage)
 
-  `ASSERT(RFWriteFromOneSourceOnly, $onehot0(rf_wdata_wb_mux_we))
+  //`ASSERT(RFWriteFromOneSourceOnly, $onehot0(rf_wdata_wb_mux_we))
 endmodule

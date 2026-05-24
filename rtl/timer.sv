@@ -4,7 +4,7 @@
 
 // Example memory mapped timer
 
-`include "prim_assert.sv"
+//`include "prim_assert.sv"
 
 module timer #(
   // Bus data width (must be 32)
