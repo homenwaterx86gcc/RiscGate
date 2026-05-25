@@ -8,7 +8,10 @@ SOURCE_FILES := $(addprefix rtl/, $(IBEX_FILES))
 TOP = ibex_core
 
 synthesize:
-	yosys -m slang -p "read_slang -v $(SOURCE_FILES); synth -top $(TOP); write_verilog $(TOP)_out.v"
+	yosys -m slang -ql synth_log.txt -p "read_slang -v $(SOURCE_FILES); synth_gatemate -top $(TOP) -luttree -nomx8; write_verilog $(TOP)_netlist.v"
 
 clean:
-	rm *.log *.txt *.json *.v
+	rm *.log *.txt *.json *.v *.dot *.png
+
+schematic:
+	yosys -m slang -ql synth_log.txt -p "read_slang -v $(SOURCE_FILES); synth_gatemate -top $(TOP); show -format png -prefix schematic"
