@@ -17,7 +17,7 @@ module ibex_demo_system #(
   parameter int                 PwmWidth       = 12,
   parameter int unsigned        ClockFrequency = 50_000_000,
   parameter int unsigned        BaudRate       = 115_200,
-  parameter ibex_pkg::regfile_e RegFile        = ibex_pkg::RegFileFPGA,
+  parameter ibex_pkg::regfile_e RegFile        = ibex_pkg::RegFileFPGA
 ) (
   input  logic clk_sys_i,
   input  logic rst_sys_ni,
@@ -26,7 +26,7 @@ module ibex_demo_system #(
   output logic [GpoWidth-1:0] gp_o,
   output logic [PwmWidth-1:0] pwm_o,
   input  logic                uart_rx_i,
-  output logic                uart_tx_o,
+  output logic                uart_tx_o
 );
   localparam logic [31:0] MEM_SIZE      = 128 * 1024; // 128 KiB
   localparam logic [31:0] MEM_START     = 32'h00100000;
@@ -38,8 +38,12 @@ module ibex_demo_system #(
   localparam logic [31:0] UART_MASK     = ~(UART_SIZE-1);
 
   typedef enum int {
+    CoreD
+  } bus_host_e;
+
+  typedef enum int {
     Ram,
-    Uart,
+    Uart
   } bus_device_e;
 
   localparam int NrDevices = 2;
@@ -162,7 +166,6 @@ module ibex_demo_system #(
     .instr_rvalid_i    (core_instr_rvalid),
     .instr_addr_o      (core_instr_addr),
     .instr_rdata_i     (core_instr_rdata),
-    .instr_rdata_intg_i('0),
     .instr_err_i       ('0),
 
     .data_req_o       (host_req[CoreD]),
@@ -189,7 +192,6 @@ module ibex_demo_system #(
     .scramble_req_o      (),
 
     .debug_req_i        (dm_debug_req),
-    .crash_dump_o       (),
     .double_fault_seen_o(),
 
     .fetch_enable_i        ('1),
@@ -199,11 +201,12 @@ module ibex_demo_system #(
     .core_sleep_o          ()
   );
 
-  ram_2p #(
-      .Depth       ( MEM_SIZE / 4 ),
-      .MemInitFile ( SRAMInitFile )
+  gatemate_ram2p #(
+      .Depth       ( MEM_SIZE),
+      .MemInitFile ()
   ) u_ram (
-    .clk_i (clk_sys_i),
+    .clk_a_i (clk_sys_i),
+    .clk_b_i (clk_sys_i),
     .rst_ni(rst_sys_ni),
 
     .a_req_i   (device_req[Ram]),
